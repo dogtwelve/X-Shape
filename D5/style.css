@@ -1,0 +1,293 @@
+/****************** Skin ***************************************/
+
+/*	theme color 1: #EEEEB5 */
+/*	theme color 2: #DDDD97 */
+/*	theme color 3: #8F8F31 */
+
+html {
+	color: #8F8F31;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+.toolbox .header,
+.plus1,
+.toolbox .header .tabbutton.active {
+	border-color: #8F8F31;
+}
+.grid-line {
+	background-color: #EEEEB5;
+}
+.grid-line.highlight {
+	background-color: #8F8F31;
+}
+
+.toolbox {
+	background-color: #DDDD97;
+	box-shadow: 0px 0px 10px rgba(50, 50, 50, 1);
+}
+
+.shape-class-library .wrapper.selected {
+	background-color: #8F8F31;
+}
+.shape-under-creation-frame {
+	outline: 3px dashed #8F8F31;
+}
+
+.shape-class-library .wrapper:hover {
+	outline: 1px dashed #8F8F31;
+}
+
+.start-hint {
+	font-style: italic;
+	font-size: 24px;
+	font-weight: bold;
+	width: 400px;
+}
+
+.toolbox .header {
+	background-color: #EEEEB5;
+}
+.toolbox .header .tabbutton.active {
+	background-color: #DDDD97;
+}
+.handle {
+	background-color: #8F8F31;
+}
+
+/****************** Built-in ***************************************/
+
+h1, h2 {
+	margin: 0px;
+	padding: 5px;
+	padding-bottom: 10px;
+	font-size: 18px;
+	text-align: center;
+	clear: both;
+}
+h1 {
+	padding-bottom: 0px;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+h1+div {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	text-align: right;
+	font-size: 10px;
+}
+h3 {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	margin: 0px;
+	clear: both;
+}
+h4 {
+	margin: 0px;
+}
+
+textarea {
+	width: 100%;
+	resize: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.code-generator input {
+	width: 126px;
+	margin-left: 5px;
+}
+
+.handle {
+	width: 9px;
+	height: 9px;
+	margin-top: -4px;
+	margin-left: -4px;
+	z-index: 3;
+}
+
+.tabbutton, .tabbutton:visited, .tabbutton:hover, .tabbutton:active {
+	text-decoration: inherit;
+	color: inherit;
+	outline: none;
+}
+
+.toolbox .header {
+	border-bottom: 1px solid;
+	padding-bottom: 2px;
+}
+.toolbox .header .tabbutton {
+	padding: 3px;
+	position: relative;
+	top: 1px;
+}
+.toolbox .header .tabbutton.active {
+	cursor: default;
+	border-top: 1px solid;
+	border-right: 1px solid;
+}
+.toolbox .header .tabbutton + .tabbutton.active {
+	border-left: 1px solid;
+}
+
+.grid-line {
+	position: absolute;
+}
+.grid-line.highlight {
+	z-index: 1;
+}
+
+.toolbox > .body
+{
+	padding: 5px;
+}
+
+.toolbox {
+	position: absolute;
+	margin: 10px;
+	top: 0px;
+	bottom: 0px;
+	z-index: 2;
+	overflow: hidden;
+	display: none; /* hidden by default, revealed when we know we are sure there is a mouse available */
+}
+
+.toolbox.disclaimer {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	padding: 10px;
+	bottom: auto;
+}
+
+.shape-library {
+	left: 0px;
+	width: 192px;
+}
+
+.shape-library .wrapper {
+	overflow: hidden;
+	display: block;
+	line-height: 0px;
+	cursor: pointer;
+	float: left;
+	padding: 5px;
+	width: 20px;
+	height: 20px;
+}
+.shape-library .wrapper > i {
+	position: relative;
+}
+
+.code-generator {
+	right: 0px;
+}
+
+.drawing-canvas {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+.start-hint {
+	position: absolute;
+	z-index: 2;
+	left: -200px;
+	top: -150px;
+	text-align: center;
+}
+.start-hint + .start-hint {
+	display: none;
+}
+
+.drawing-canvas-wrapper {
+	position: absolute;
+	top: 0px; left: 0px; right: 161px; bottom: 0px;
+	overflow: hidden;
+}
+
+.shape {
+	position: absolute;
+}
+
+.shape-under-creation-frame {
+	display: none;
+	position: absolute;
+}
+
+table { 
+	border-spacing:0;
+	border-collapse:collapse;
+}
+
+td {
+	padding: 0px;
+}
+
+.toolbox.disclaimer,
+.toolbox.code-generator {
+	margin-right: 170px;
+}
+
+.ad-wrapper {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 160px;
+	background-color: white;
+	border-left: 1px solid #444;
+}
+.ad {
+	position: absolute;
+	top: 50%;
+	margin-top: -300px;
+}
+.plus1 {
+	height: 30px;
+	padding-left: 5px;
+	padding-top: 10px;
+	border-top: 1px solid;
+}
+
+/* from http://stackoverflow.com/a/4407335/1060205 */
+.unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#shape-button-bar {
+	position: absolute;
+	display: none;
+	margin-top: -55px;
+	z-index: 4;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 5px;
+	height: 33px;
+}
+#shape-button-bar button {
+	width: 33px;
+	height: 33px;
+	border-radius: 0px;
+	box-shadow: none;
+	background: white;
+	border: 1px solid black;
+	padding: 0px;
+	margin: 0px;
+	cursor: pointer;
+	border-color: #91765d;
+	font-size: 15px;
+}
+#shape-button-bar button:hover {
+	border-color: #F0C49B;
+}
+
+#delete-button {
+}

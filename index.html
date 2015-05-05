@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<link rel="canonical" href="http://www.samuelrossille.com/css-shape/">
+	<title>CSS Shape Generator</title>
+
+	<link  href="d5/spectrum.css" rel="stylesheet">
+	<link  href="d5/style.css" rel="stylesheet">
+	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="d5/shape.js"></script>
+	<script src="d5/ui-shape-class-library.js"></script>
+	<script src="d5/grid.js"></script>
+	<script src="d5/ui-code-generator.js"></script>
+	<script src="d5/spectrum.js"></script>
+</head>
+<body>
+	<div class="drawing-canvas-wrapper unselectable">
+		<div class="drawing-canvas">
+			<div class="grid"></div>
+			<p class="start-hint" style="left: -300px; top: -150px;">Step 1 - Select a shape on the left by clicking on it.</p>
+			<p class="start-hint" style="left: -250px; top: -50px;">Step 2 - Draw a rectangle on the grid to place the shape.</p>
+			<p class="start-hint" style="left: -150px; top: 50px;">Step 3 - Release the mouse when you're done.</p>
+			
+			<div class="shape-under-creation-frame"></div>
+			<div id="shape-button-bar" class="toolbox">
+				<button id="delete-button" title="Delete">X</button>
+				<button id="send-to-back-button" title="Send to back">B</button>
+				<button id="bring-to-front-button" title="Bring to front">F</button>
+				<input type='text' id="color-picker" />
+			</div>
+		</div>
+	</div>
+	<div class="toolbox disclaimer">
+	</div>
+	
+	<div class="toolbox shape-library unselectable">
+		<div class="header">
+			<h1>CSS Shape Generator [Beta]</h1>
+			<div>by <a href="http://www.samuelrossille.com/home/css-shape-generator.html">samuelrossille.com</a></div>
+		</div>
+		<div class="body">
+			<h3>Shape Library</h3>
+			<div class="shape-class-library"></div>
+			<h3>Actions</h3>
+			<button id="clear-button">Clear</button>
+			<button id="center-button">Center</button>
+			<h3>Help</h3>
+			<div style="font-size: 12px">
+				<p>Click to select. Drag shape to move. Drag handle to resize.</p>
+				<p>Data is in the URL: use back button to undo, use bookmarks to save.</p>
+				<p>Use your imagination.</p>
+				<p>Try an example:
+					<a href="#ff40f5y18z0z-7z14z0_19z-14z-7z14z0_5z-10z3z20z0_16z-14z-14z14z0_16z0z-14z14z0">Heart</a>,
+					<a href="#3247e3000000ffffff089000y16z-10z-14z20z0_17z0z-14z12z11z1_17z1z-13z9z9z2_16z3z-10z5z3_16z4z-9z3z1_16z-11z-14z11z1_16z-10z-13z9z2_16z-8z-10z5z3_16z-7z-9z3z1_0z-10z-3z20z14z0_10z-16z4z7z0_16z-18z10z4z0_0z-16z10z32z4z0_16z-21z-1z11z2_16z14z10z4z0_11z9z4z7z0_16z10z-1z11z2">Monster</a>,
+					<a href=#17b2ff1142AA00752affffffy0z-30z-26z59z37z0_2z-3z-12z28z1_0z15z-9z3z6z1_0z-30z11z59z15z2_0z0z2z22z16z1_17z-24z-19z20z12z3_17z-19z-23z12z7z3_17z-9z-21z10z4z3_17z-24z-21z7z4z3_17z-15z-23z30z11z3_17z-29z-19z17z8z3">6 year's old house</a>,
+					<a href="#ff0000ff8100y38z3z-8z16z0_38z-5z2z6z1_38z-12z2z6z1_38z-19z2z6z1">Packman has a family too</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="toolbox code-generator">
+		<div class="header">
+			<h2>Output</h2>
+			<script type="text/javascript">
+	var selectTab = function(tab) {
+	    $('.tabcontent').hide(); 
+	    $('.tabcontent.tab-' + tab).show();
+	    $('.tabbutton').removeClass('active'); 
+	    $('.tabbutton.tab-' + tab).addClass('active'); 
+	};
+	$(function() {
+	    selectTab('html');
+	});
+			</script>
+			<a class="tabbutton tab-html" href="javascript:selectTab('html')">HTML</a>
+			<a class="tabbutton tab-css" href="javascript:selectTab('css')">HTML / CSS</a>
+		</div>
+		<div class="body">
+			<h3>Parameters</h3>
+			<table>
+				<tr><td>Width</td><td><input class="input-width"></td></tr>
+				<tr><td>Height</td><td><input class="input-height"></td></tr>
+				<tr><td>Unit</td><td><input class="input-unit"></td></tr>
+				<tr class="tabcontent tab-css"><td>Class</td><td><input class="input-class"></td></tr>
+			</table>
+			<h3>HTML</h3>
+			<textarea class="tabcontent tab-html output-standalone-html" style="height: 125px"></textarea>
+			<textarea class="tabcontent tab-css output-html" style="height: 75px"></textarea>
+			<h3 class="tabcontent tab-css" >CSS</h3>
+			<textarea class="tabcontent tab-css output-css" style="height: 75px"></textarea>
+		</div>
+
+		<div style="border-top: 1px solid #8F8F31; padding-top: 10px;">
+			<form id="donate-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+				<input type="hidden" name="cmd" value="_s-xclick">
+				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" style="margin-left: 38px;">
+				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			</form>
+		</div>
+		<p style="width: 180px; font-size: 12px; padding: 5px;">Donnations help cover the cost of hosting, and fund me to develop more fun or useful services in the future.</p>
+		<div class="plus1">
+			<div id="fb-root"></div>
+			<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+
+			<table>
+				<tr>
+					<td>
+						<div class="g-plusone"></div> <script type="text/javascript">
+							(function() {
+								var po = document.createElement('script');
+								po.type = 'text/javascript';
+								po.async = true;
+								po.src = 'https://apis.google.com/js/plusone.js';
+								var s = document
+										.getElementsByTagName('script')[0];
+								s.parentNode.insertBefore(po, s);
+							})();
+						</script>
+					</td>
+					<td>
+						<div class="fb-like" data-send="false" data-layout="button_count"
+							data-width="450" data-show-faces="false"  href="http://www.samuelrossille.com/css-shape/"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p style="width: 180px; font-size: 12px; padding: 5px;">Sharing helps Other people discover the service.</p>
+		
+		<div style="border-top: 1px solid #8F8F31;">
+			<p style="width: 180px; font-size: 12px; padding: 5px;">See also <a href="../merge-pdf-online/" target="_blank">Merge PDF Online</a></p>
+		</div>
+	</div>
+	<div class="ad-wrapper"><div class="ad">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-7637423437834017";
+		/* default-right-skyscraper */
+		google_ad_slot = "6661356253";
+		google_ad_width = 160;
+		google_ad_height = 600;
+		//--><!--
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div></div>
+	<script type="text/javascript">
+	
+	var hasMouse = false;
+    $(function() {
+        if(hasMouse) {
+            $(".toolbox.disclaimer").css("display", "block")
+            .text("Edition not supported on touch devices!")
+        }
+        else {
+            $(".toolbox.code-generator, .toolbox.shape-library").css("display", "block");
+        }
+        
+    	$("#shape-button-bar").mousedown(function(){
+    		return false;
+    	});
+
+        $(".drawing-canvas").css("margin-left", (($(".shape-library").width() - $(".code-generator").width()) / 2) + "px");
+        $(".drawing-canvas").css("margin-left", (($(".shape-library").width() - $(".code-generator").width()) / 2) + "px");
+        
+        /*****************************	Configuration  **************************************/
+        
+        var LIBRARY_SHAPE_SIZE = 20;
+        var GRID_STEP = 0.1;
+        var currentZoom = 100;
+        var DEFAULT_COLOR = '#1142AA';
+        
+        /*****************************	View Model  **************************************/
+        
+        var shapes = [];
+        var currentColor = DEFAULT_COLOR;
+        var pendingOperation = null; // {action: , context: , shape: }
+        var selectedShapeClass = null;
+        var selectedShape = null;
+
+        /*****************************	Auxiliary ui components  **************************************/
+        
+        $(".shape-class-library").shapeClassLibrary({
+            shapeClasses: shapeClasses,
+            libraryShapeSize: LIBRARY_SHAPE_SIZE,
+            color: currentColor
+        });
+        
+        $(".grid").grid({
+            viewPort: $(".drawing-canvas-wrapper"),
+            zoom: currentZoom,
+            step: GRID_STEP
+        });
+        
+        $(".code-generator").codeGenerator({
+        });
+        
+        /*****************************	Output  **************************************/
+        
+        var currentHash = null;
+        
+        var updateUrl = function(shapes) {
+        	var palette = [];
+        	var getColorIndex = function(color) {
+        		color = color.substring(1);
+        		for(var i = 0; i < palette.length; i++) {
+        			if(palette[i] == color) return i;
+        		}
+        		palette.push(color);
+        		return palette.length - 1;
+        	};
+        	 //1z-14z-13z5_1z-15z-14z7_1z-12z-11z7
+        	currentHash = _.map(shapes, function(shape) {
+        		return shape.shapeClass.id + "z" + shape.position.x + "z" + shape.position.y + "z"
+        			+ (shape.parameters.size == null 
+        					? shape.parameters.width + "z" + shape.parameters.height
+        					: shape.parameters.size)
+        			+ "z" + getColorIndex(shape.color);
+        	}).join("_");
+        	 
+        	currentHash = palette.join("") + "y" + currentHash;
+        	
+        	document.location.href = "#" + currentHash;
+        };
+        
+        var checkHash = function() {
+        	var hash = document.location.href.split("#")[1];
+        	if(hash != null && hash.length > 0 && currentHash != hash) {
+        		currentHash = hash;
+        		
+        		var parts = currentHash.split("y");
+        		var palette, serializedShapes;
+        		if(parts.length == 1) {
+        			palette = null;
+        			serializedShapes = parts[0];
+        		}
+        		else {
+        			palette = _.map(parts[0].match(/.{1,6}/g), function(str) {
+        				return "#" + str;
+        			});
+        			serializedShapes = parts[1];
+        		}
+        		
+        		shapes = _.map(serializedShapes.split("_"), function(serializedShape) {
+        			var numbers = _.map(serializedShape.split("z"), function(str) {
+        				return parseFloat(str, 10);
+        			});
+        			var shapeClass = shapeClasses[numbers[0]];
+        			var position = {x: numbers[1], y: numbers[2]};
+        			var shape = new Shape(shapeClass, currentColor, position);
+        			if(shapeClass.length == 2) {
+        				shape.parameters.width = numbers[3];
+        				shape.parameters.height = numbers[4];
+        			}
+        			else if (shapeClass.length == 1) {
+        				shape.parameters.size = numbers[3];
+        			}
+        			if(numbers.length > 3 + shapeClass.length) {
+        				shape.color = palette[numbers[3 + shapeClass.length]];
+        			}
+        			else {
+        				shape.color = DEFAULT_COLOR;
+        			}
+        			return shape;
+        		});
+        		
+        		selectedShape = null;
+                if(shapes.length > 0) $(".start-hint").remove();
+            	commitChanges();
+        	}
+       	};
+        
+        /*****************************	Output  **************************************/
+        
+        var updateOutput = function() {
+            $(".code-generator").codeGenerator().update(shapes, currentColor);
+        };
+        
+        
+        /*****************************	Editor  **************************************/
+        
+        var setSelectedShapeClass = function(newSelectedShapeClass) {
+            if(newSelectedShapeClass != null) {
+                setSelectedShape(null);
+            }
+            if(pendingOperation) return;
+            
+            if(selectedShapeClass == null && newSelectedShapeClass != null && $(".start-hint").length == 3) {
+                $(".start-hint").first().remove();
+            }
+            selectedShapeClass = newSelectedShapeClass;
+            
+            $(".shape-class-library").shapeClassLibrary().setSelectedClass(selectedShapeClass);
+        };
+        
+        $(".shape-class-library").shapeClassLibrary().setSelectionHandler(setSelectedShapeClass);
+        
+        var deleteSelectedShape = function() {
+            for(var i = 0; i < shapes.length; i++) {
+            	if(shapes[i] === selectedShape) {
+            		shapes.splice(i, 1);
+            		break;
+            	}
+            }
+            selectedShape = null;
+        	commitChanges();
+        };
+        
+        var sendSelectedShapeToBack = function() {
+            for(var i = 0; i < shapes.length; i++) {
+            	if(shapes[i] === selectedShape) {
+            		shapes.splice(i, 1);
+            		break;
+            	}
+            }
+            shapes.splice(0, 0, selectedShape);
+        	commitChanges();
+        }
+        
+        var bringSelectedShapeToFront = function() {
+            for(var i = 0; i < shapes.length; i++) {
+            	if(shapes[i] === selectedShape) {
+            		shapes.splice(i, 1);
+            		break;
+            	}
+            }
+            shapes.push(selectedShape);
+        	commitChanges();
+        }
+        
+        var setColor = function(color) {
+        	currentColor = color;
+        	$("#color-picker").spectrum("set", color);
+        	$(".shape-class-library").shapeClassLibrary().setColor(currentColor);
+        };
+        
+        var setSeletedShapeColor = function(color) {
+        	setColor(color);
+        	selectedShape.color = color;
+        	
+        	var currentSelectedShape = selectedShape;
+        	setSelectedShape(null);
+        	setTimeout(function() {
+        		if(selectedShape == null) setSelectedShape(currentSelectedShape);
+        	}, 1000);
+        	
+        	
+        	commitChanges();
+        };
+        
+        $("#delete-button").mousedown(function() {
+        	deleteSelectedShape();
+        });
+        
+        $("#send-to-back-button").mousedown(function() {
+        	sendSelectedShapeToBack();
+        });
+        $("#bring-to-front-button").mousedown(function() {
+        	bringSelectedShapeToFront();
+        });
+        
+        
+        
+        var updateCanvasContent = function() {
+            $(".drawing-canvas > .handle").remove();
+            $(".drawing-canvas > button").remove();
+            $(".drawing-canvas > i").remove();
+        	
+            _.each(shapes, function(shape) {
+            	$('<i class="shape"></i>')
+               	.css(shape.generateCss("px", currentZoom * GRID_STEP, shape == selectedShape))
+               	.css({
+               	    "left": shape.position.x * currentZoom * GRID_STEP + "px",
+               	    "top": shape.position.y * currentZoom * GRID_STEP + "px"
+               	})
+               	.appendTo($(".drawing-canvas"));
+            });
+            
+            if(pendingOperation) {
+                var feedback = pendingOperation.action.getFeedback(pendingOperation.shape, pendingOperation.context);
+                if(feedback && feedback.type == "rectangle") {
+                    $(".shape-under-creation-frame").css({
+                    	"display": "block",
+                    	"left": feedback.x * currentZoom * GRID_STEP + "px",
+                	    "top": feedback.y * currentZoom * GRID_STEP + "px",
+                	    "width": feedback.width * currentZoom * GRID_STEP + "px",
+                	    "height": feedback.height * currentZoom * GRID_STEP + "px"
+                    });
+                }
+                else $(".shape-under-creation-frame").css({"display": ""});
+            }
+            else $(".shape-under-creation-frame").css({"display": ""});
+            
+            if(selectedShape != null) {
+                _.each(selectedShape.getEditionActions(), function(action) {
+                    if(action.handle) {
+		                var size = selectedShape.getSize();
+		                var position = selectedShape.position;
+                        $("<div class='handle' style='position: absolute'></div>")
+                        .css({
+                        	"left": (position.x + size.width * action.handle.x) * currentZoom * GRID_STEP + "px",
+                    	    "top": (position.y + size.height * action.handle.y) * currentZoom * GRID_STEP + "px",
+                    	    "cursor": action.style
+                        })
+                        .data("action", action)
+                        .appendTo($(".drawing-canvas"));
+                    }
+                });
+                
+                var position = selectedShape.position;
+                $("#shape-button-bar")
+                .css({
+	               	"left": position.x * currentZoom * GRID_STEP+ "px",
+	           	    "top": position.y * currentZoom * GRID_STEP + "px",
+	           	    "position": "absolute",
+	           	    "display": "block"
+                });
+            }
+            else {
+            	$("#shape-button-bar")
+                .css({
+	           	    "display": "none"
+                });
+            }
+        };
+        
+        var commitChanges = function() {
+            updateCanvasContent();
+            updateOutput();
+            updateUrl(shapes);
+        };
+        
+        var setSelectedShape = function(shape) {
+        	if(shape != selectedShape) {
+                if(shape != null) {
+                	setSelectedShapeClass(null);
+                	setColor(shape.color);
+                }
+                selectedShape = shape;
+                updateCanvasContent();
+        	}
+        };
+        
+        var startOperation = function(action, position) {
+            var shape = selectedShape;
+            
+            pendingOperation = {
+            	shape: selectedShape,
+            	action: action,
+            	context: action.createContext(selectedShape, position)
+            }
+            
+            updateCanvasContent();
+        }
+        
+        var startShapeCreation = function(position) {
+            selectedShape = new Shape(selectedShapeClass, currentColor, position);
+            var action = selectedShape.getCreationAction();
+            shapes.push(selectedShape);
+            
+            startOperation(action, position);
+            
+            if($(".start-hint").length == 2) {
+                $(".start-hint").first().remove();
+            }
+        };
+        var progressPendingOperation = function(position) {
+            pendingOperation.action.progress(pendingOperation.shape, pendingOperation.context, position);
+            updateCanvasContent();
+        };
+        var finishPendingOperation = function(position) {
+            var finalSize = pendingOperation.shape.getSize();
+            if(finalSize.width == 0 && finalSize.height == 0) {
+                for(var i = 0; i < shapes.length; i++) {
+                    if(shapes[i] === pendingOperation.shape) {
+                        shapes.splice(i, 1);
+                    }
+                }
+                if(selectedShape === pendingOperation.shape);
+                selectedShape = null;
+            }
+            
+            pendingOperation = null;
+            commitChanges();
+            $(".start-hint").remove();
+        };
+        
+        $("#clear-button").click(function() {
+        	shapes = [];
+        	selectedShape = null;
+        	commitChanges();
+        });
+
+        $("#center-button").click(function() {
+        	var bounds = {};
+        	_.each(shapes, function(shape) {
+        		var xMin = shape.position.x;
+        		var yMin = shape.position.y;
+        		var size = shape.getSize();
+        		var xMax = xMin + size.width;
+        		var yMax = yMin + size.height;
+        		bounds.xMin = bounds.xMin == null ? xMin : Math.min(xMin, bounds.xMin);
+        		bounds.yMin = bounds.yMin == null ? yMin : Math.min(yMin, bounds.yMin);
+        		bounds.xMax = bounds.xMax == null ? xMax : Math.max(xMax, bounds.xMax);
+        		bounds.yMax = bounds.yMax == null ? yMax : Math.max(yMax, bounds.yMax);
+        	});
+        	
+        	var dx = Math.round((bounds.xMax + bounds.xMin) / 2);
+        	var dy = Math.round((bounds.yMax + bounds.yMin) / 2);
+        	
+        	_.each(shapes, function(shape) {
+        		shape.position.x = shape.position.x - dx;
+        		shape.position.y = shape.position.y - dy;
+        	});
+        	commitChanges();
+        });
+        
+        var snapToGrid = function(position) {
+            return {
+                x: Math.round(position.x),
+                y: Math.round(position.y)
+            }
+        };
+
+        var getEventPosition = function(event) {
+            var drawingCanvasPosition = $(".drawing-canvas").offset();
+            return {
+            	x: ((event.pageX - drawingCanvasPosition.left) / currentZoom) / GRID_STEP,
+            	y: ((event.pageY - drawingCanvasPosition.top) / currentZoom) / GRID_STEP,
+            };
+        };
+        
+        var getHoverShape = function(position) {
+            for(var i = shapes.length - 1; i >= 0; i--) {
+                var shape = shapes[i];
+                if(shape.hitTest(position)) {
+                    return shape;
+                }
+            }
+            return null;
+        };
+        
+        var updatePointer = function(exactPosition) {
+	        var hoverShape = getHoverShape(exactPosition);
+            if(hoverShape != null) {
+                $(".drawing-canvas-wrapper").css("cursor", "pointer");
+                $(".grid").grid().unHighlightLines();
+            }
+            else {
+            	if(pendingOperation || selectedShapeClass) {
+	                $(".drawing-canvas-wrapper").css("cursor", "crosshair");
+	                $(".grid").grid().highlightLinesAtPosition(snapToGrid(exactPosition));
+            	}
+            	else {
+            		$(".drawing-canvas-wrapper").css("cursor", "");
+            		$(".grid").grid().unHighlightLines();
+            	}
+            }
+            return hoverShape;
+        };
+        
+        $(".drawing-canvas-wrapper")
+        .mousedown(function(event) {
+	        var position = snapToGrid(getEventPosition(event));
+	        if($(event.target).hasClass("handle")) {
+	            startOperation($(event.target).data("action"), position);
+	        }
+	        else {
+		        var hoverShape = getHoverShape(position);
+		        if(selectedShapeClass && hoverShape == null) {
+		        	startShapeCreation(position);
+		        }
+		        else if(hoverShape != null) {
+		            setSelectedShape(hoverShape);
+		            var editionActions = hoverShape.getEditionActions();
+		            for(var i = 0; i < editionActions.length; i++) {
+		                if(editionActions[i].handle == null) {
+		                    startOperation(editionActions[i], position);
+		                    break;
+		                }
+		            }
+		        }
+		        else {
+		            setSelectedShape(null);
+		        }
+	        }
+        })
+        .mouseup(function(event) {
+            if(pendingOperation) {
+                var position = snapToGrid(getEventPosition(event));
+                finishPendingOperation(position);
+            }
+        })
+        .mousemove(function(event) {
+            var exactPosition = getEventPosition(event);
+            if(pendingOperation) {
+                progressPendingOperation(snapToGrid(exactPosition));
+            }
+            updatePointer(exactPosition);
+        })
+        .on('dragstart', function(event) { event.preventDefault(); });
+        
+    	$("#color-picker").spectrum({
+    	    showInput: true,
+    	    palette: [[], []],
+    	    clickoutFiresChange: true,
+    	    showInitial: false,
+    	    showInput: true,
+    	    chooseText: "OK",
+    	    cancelText: "Cancel",
+    	    preferredFormat: "hex6",
+    	    change: function(color) {
+    	        setSeletedShapeColor(color.toHexString());
+    	    }
+    	});
+        
+        $(window).on('hashchange', checkHash);
+        checkHash();
+    });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43112874-1', 'samuelrossille.com');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
